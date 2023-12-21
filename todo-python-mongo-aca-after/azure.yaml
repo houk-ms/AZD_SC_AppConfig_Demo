@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: todo-python-mongo-aca
+metadata:
+  template: todo-python-mongo-aca@0.0.1-beta
+hooks:
+  predeploy:
+    shell: sh
+    continueOnError: false
+    interactive: true
+    run: ./create_sc.sh
+services:
+  web:
+    project: ./src/web
+    language: js
+    host: containerapp
+  api:
+    project: ./src/api
+    language: python
+    host: containerapp

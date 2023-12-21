@@ -1,0 +1,13 @@
+bindings:
+  - source: web
+    target: api
+    connection: http
+    store: appConfig
+  - source: api
+    target: cosmos
+    connection: secret
+    store: keyVault
+  - source: api
+    target: monitoring 
+    auth: secret
+    store: keyVault
