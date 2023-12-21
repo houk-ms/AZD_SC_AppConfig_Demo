@@ -22,7 +22,7 @@ export AppConfigName=appcs-${AZURE_CONTAINER_REGISTRY_NAME:2}
 export CosmosAccountName=cosmos-${AZURE_CONTAINER_REGISTRY_NAME:2}
 
 
-echo 'Pre-deploy hook script to create service connector resources'
+echo 'Pre-deploy hook begins ...'
 
 
 # Authenticate to AzureCLI
@@ -56,21 +56,23 @@ export CosmosConnectionString=$(az cosmosdb keys list \
 
 echo '--> Step3. Create bindings according to binding.yaml file'
 # [web--api]
-echo '------> Create http binding for web and api ...'
+echo '-----> Create http binding for web and api'
 az containerapp connection create containerapp \
     --target-group $ResourceGroupName --target-app-name $SERVICE_API_NAME \
     --https --appconfig-id $AZURE_APP_CONFIG_ID
 
 # [api--cosmos]
-echo '------> Create secret binding for api and cosmos ...'
+echo '-----> Create secret binding for api and cosmos'
 az connectionapp connection create cosmos-mongo \
     --resource-group $ResourceGroupName --name $SERVICE_API_NAME \
     --target-group $ResourceGroupName --account $CosmosAccountName --database $AZURE_COSMOS_DATABASE_NAME \
     --secret --vault-id $AZURE_KEY_VAULT_ID
 
 # [api-appinsights]
-echo '------> Create secret binding for api and monitoring ...'
+echo '-----> Create secret binding for api and monitoring'
 az containerapp connection create appinsights \
     --resource-group $ResourceGroupName --name $SERVICE_API_NAME \
     --target-group $ResourceGroupName --app-insight $APPLICATIONINSIGHTS_NAME \
     --secret --vault-id $AZURE_KEY_VAULT_ID
+
+echo 'Pre-deploy hook begins ...'

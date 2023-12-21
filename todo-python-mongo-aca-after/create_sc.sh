@@ -22,7 +22,7 @@ export AppConfigName=appcs-${AZURE_CONTAINER_REGISTRY_NAME:2}
 export CosmosAccountName=cosmos-${AZURE_CONTAINER_REGISTRY_NAME:2}
 
 
-echo 'Pre-deploy hook script to create service connector resources'
+echo 'Pre-deploy hook begins ...'
 
 
 # Authenticate to AzureCLI
@@ -56,7 +56,7 @@ export CosmosConnectionString=$(az cosmosdb keys list \
 
 echo '--> Step3. Create bindings according to binding.yaml file'
 # [web--api]
-echo '------> Create http binding for web and api ...'
+echo '-----> Create http binding for web and api'
 # az appconfig kv set \
 #     --key REACT_APP_API_BASE_URL \
 #     --value $REACT_APP_API_BASE_URL \
@@ -68,7 +68,7 @@ echo '------> Create http binding for web and api ...'
 #     > /dev/null
 
 # [api--cosmos]
-echo '------> Create secret binding for api and cosmos ...'
+echo '-----> Create secret binding for api and cosmos'
 az appconfig kv set \
     --key API_ALLOW_ORIGINS \
     --value $API_CORS_ACA_URL  \
@@ -86,9 +86,11 @@ az keyvault secret set \
     > /dev/null
 
 # [api-appinsights]
-echo '------> Create secret binding for api and monitoring ...'
+echo '-----> Create secret binding for api and monitoring'
 az keyvault secret set \
     --name APPLICATIONINSIGHTS-CONNECTION-STRING \
     --value $APPLICATIONINSIGHTS_CONNECTION_STRING \
     --vault-name $AZURE_KEY_VAULT_NAME \
     > /dev/null
+
+echo 'Pre-deploy hook ends ...'
