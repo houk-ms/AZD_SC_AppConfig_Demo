@@ -1,0 +1,17 @@
+{
+    "properties": {
+        "targetService": {
+            "type": "AzureResource",
+            "id": "/subscriptions/937bc588-a144-4083-8612-5f9ffbbddb14/resourceGroups/rg-azddemo-after/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-7zmds2ajb7ahq"
+        },
+        "authInfo": {
+            "authType": "secret"
+        },
+        "publicNetworkSolution": {
+            "action": "optOut"
+        },
+        "configurationInfo" : {
+            "action": "optOut"
+        }
+    }
+}

@@ -16,20 +16,6 @@ class Settings(BaseSettings):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Load secrets from keyvault
-        if self.AZURE_KEY_VAULT_ENDPOINT:
-            credential = DefaultAzureCredential()
-            keyvault_client = SecretClient(self.AZURE_KEY_VAULT_ENDPOINT, credential)
-            for secret in keyvault_client.list_properties_of_secrets():
-                revised_secret_name = keyvault_name_as_attr(secret.name)
-                if hasattr(self, revised_secret_name):
-                    print(revised_secret_name, keyvault_client.get_secret(secret.name).value)
-                    setattr(
-                        self,
-                        revised_secret_name,
-                        keyvault_client.get_secret(secret.name).value,
-                    )
-        
         # Load configs from appconfig
         if self.AZURE_APP_CONFIG_ENDPOINT:
             credential = DefaultAzureCredential()

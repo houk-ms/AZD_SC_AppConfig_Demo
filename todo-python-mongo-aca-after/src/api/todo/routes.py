@@ -12,6 +12,18 @@ from .models import (CreateUpdateTodoItem, CreateUpdateTodoList, TodoItem,
                      TodoList, TodoState)
 
 
+async def reload_appconfig_and_connect_mongodb():
+    settings = Settings()
+    print('settings: ', settings)
+    client = motor.motor_asyncio.AsyncIOMotorClient(
+        settings.AZURE_COSMOS_CONNECTION_STRING
+    )
+    await init_beanie(
+        database=client[settings.AZURE_COSMOS_DATABASE_NAME],
+        document_models=__beanie_models__,
+    )
+
+
 @app.get("/lists", response_model=List[TodoList], response_model_by_alias=False)
 async def get_lists(
     top: Optional[int] = None, skip: Optional[int] = None
@@ -24,6 +36,11 @@ async def get_lists(
     - **top**: Number of lists to return
     - **skip**: Number of lists to skip
     """
+    
+    # reload app config to fetch mongo db connstr and connect
+    print('now calling lists api ...')
+    await reload_appconfig_and_connect_mongodb()
+
     query = TodoList.all().skip(skip).limit(top)
     return await query.to_list()
 

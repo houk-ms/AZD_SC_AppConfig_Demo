@@ -8,7 +8,7 @@ hooks:
     shell: sh
     continueOnError: false
     interactive: true
-    run: ./create_sc.sh
+    run: ./hook/create_sc.sh
 services:
   web:
     project: ./src/web
