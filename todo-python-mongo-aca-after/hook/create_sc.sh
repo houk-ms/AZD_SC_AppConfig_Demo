@@ -94,7 +94,7 @@ az appconfig kv set \
     --yes > /dev/null
 
 az rest --method put --url https://management.azure.com/subscriptions/937bc588-a144-4083-8612-5f9ffbbddb14/resourceGroups/rg-azddemo-after/providers/Microsoft.App/containerApps/ca-api-7zmds2ajb7ahq/providers/Microsoft.ServiceLinker/linkers/api2cosmos?api-version=2023-04-01-preview \
-    --body @hook/api2cosmos.json --debug
+    --body @hook/api2cosmos.json > /dev/null
 
 # az rest --method put --url https://management.azure.com/subscriptions/937bc588-a144-4083-8612-5f9ffbbddb14/resourceGroups/rg-azddemo-after/providers/Microsoft.App/containerApps/ca-api-7zmds2ajb7ahq/providers/Microsoft.ServiceLinker/linkers/api2appinsights?api-version=2023-04-01-preview \
 #     --body @hook/api2appinsights.json --debug

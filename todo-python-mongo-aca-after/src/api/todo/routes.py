@@ -11,6 +11,9 @@ from .app import app
 from .models import (CreateUpdateTodoItem, CreateUpdateTodoList, TodoItem,
                      TodoList, TodoState)
 
+from .models import Settings, __beanie_models__
+import motor
+from beanie import init_beanie
 
 async def reload_appconfig_and_connect_mongodb():
     settings = Settings()
@@ -60,6 +63,10 @@ async def get_list(list_id: PydanticObjectId) -> TodoList:
     """
     Get Todo list by ID
     """
+    # reload app config to fetch mongo db connstr and connect
+    print('now calling /lists/{list_id} api ...')
+    await reload_appconfig_and_connect_mongodb()
+
     todo_list = await TodoList.get(document_id=list_id)
     if not todo_list:
         raise HTTPException(status_code=404, detail="Todo list not found")
